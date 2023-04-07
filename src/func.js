@@ -6,11 +6,11 @@ const axios = require("axios");
 const {src} = require("./paths");
 const pipeline = util.promisify(stream.pipeline);
 
-const downloadFile = async (loc, pth) => {
+const downloadFile = async (loc, pth, responseType='stream') => {
   try {
     await ensureFile(pth);
     const request = await axios.get(loc, {
-      responseType: 'stream',
+      responseType,
     });
     await pipeline(request.data, fs.createWriteStream(pth));
     console.log(`download ${loc} successful`);
